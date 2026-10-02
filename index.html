@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEYVI | Sound Architect & Creative Director</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #08090d;
+      --bg-surface: #10121a;
+      --bg-card: rgba(18, 21, 33, 0.75);
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --cyan: #06b6d4;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+      --accent-grad: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 50%, #ec4899 100%);
+      --accent-glow: 0 0 25px rgba(139, 92, 246, 0.35);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(139, 92, 246, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 40%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 60%);
+      background-attachment: fixed;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #272a38;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b3f54;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: rgba(8, 9, 13, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-badge {
+      font-size: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 6px;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 4px;
+      -webkit-text-fill-color: initial;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-action {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav-audio {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 20px;
+      color: #c4b5fd;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav-audio:hover {
+      background: rgba(139, 92, 246, 0.25);
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    }
+
+    .eq-wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+    .eq-bar {
+      width: 2px;
+      background: #c4b5fd;
+      border-radius: 1px;
+      height: 4px;
+      transition: height 0.2s;
+    }
+    .eq-bar.active {
+      animation: bounce 0.6s ease infinite alternate;
+    }
+    .eq-bar:nth-child(2).active { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3).active { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0% { height: 3px; }
+      100% { height: 12px; }
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 180px 0 100px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 6px 18px;
+      border-radius: 30px;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--accent-glow);
+    }
+
+    .hero-pitch {
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      font-weight: 600;
+      color: #e2e8f0;
+      max-width: 840px;
+      margin: 0 auto 20px;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 45px;
+    }
+
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      padding: 5px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(236, 72, 153, 0.5);
+    }
+
+    .btn-secondary {
+      padding: 14px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Section Styling */
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-header {
+      margin-bottom: 50px;
+    }
+
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-top: 10px;
+      max-width: 600px;
+    }
+
+    /* Player & Discography */
+    .discography-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .track-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .track-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .track-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .track-card:hover::before {
+      opacity: 1;
+    }
+
+    .track-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .track-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .track-bpm {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .track-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 6px;
+    }
+
+    .track-genre {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .play-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent-grad);
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+    }
+
+    .track-desc {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .track-architecture {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .arch-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .arch-points {
+      list-style: none;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+
+    .arch-points li {
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .arch-points li::before {
+      content: '▪';
+      color: var(--cyan);
+    }
+
+    .track-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-detail {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-detail:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    /* Narrative / Philosophy Section */
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .phil-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 32px 26px;
+      position: relative;
+    }
+
+    .phil-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.02) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .phil-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .phil-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Domains Section */
+    .domains-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .domain-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .domain-box:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      box-shadow: 0 10px 25px rgba(6, 182, 212, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .domain-icon {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .domain-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .domain-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .domain-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .dtag {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--cyan);
+    }
+
+    /* Visual Gallery */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    .visual-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .visual-preview {
+      height: 320px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(8, 9, 13, 0.1) 0%, rgba(8, 9, 13, 0.95) 100%), #141724;
+    }
+
+    .crosswalk-bg {
+      background: 
+        radial-gradient(circle at 70% 30%, rgba(6, 182, 212, 0.35), transparent 50%),
+        radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.4), transparent 55%),
+        linear-gradient(180deg, #10121d 0%, #090a10 100%);
+    }
+
+    .clock-bg {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.25), transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.3), transparent 50%),
+        linear-gradient(180deg, #181524 0%, #090a10 100%);
+    }
+
+    .visual-info {
+      position: relative;
+      z-index: 2;
+    }
+
+    .visual-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .visual-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .visual-prompt-preview {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      max-width: 520px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #111422;
+      border: 1px solid var(--border-hover);
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #94a3b8;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .code-block {
+      background: #090a10;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin: 16px 0;
+    }
+
+    /* Contact Section */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.06) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 24px;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .contact-desc {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 580px;
+      margin: 0 auto 36px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-mail {
+      padding: 14px 32px;
+      background: #fff;
+      color: #08090d;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-mail:hover {
+      background: #e2e8f0;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .discography-grid,
+      .philosophy-grid,
+      .domains-wrap,
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="logo">
+        VEYVI
+        <span class="logo-badge">PRODUCER / ARCHITECT</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#discography">Discography</a></li>
+        <li><a href="#narrative">Narrative</a></li>
+        <li><a href="#domains">Domains</a></li>
+        <li><a href="#visuals">Visuals</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-action">
+        <button class="btn-nav-audio" id="audioToggleBtn" onclick="toggleAudioDemo()">
+          <div class="eq-wave">
+            <div class="eq-bar" id="eq1"></div>
+            <div class="eq-bar" id="eq2"></div>
+            <div class="eq-bar" id="eq3"></div>
+          </div>
+          <span id="audioStatusText">Synth Wave Live</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">
+        <span>⚡</span> HUMAN INTUITION x AI PRECISION
+      </div>
+      <h1 class="hero-title">VEYVI</h1>
+      <p class="hero-pitch">
+        "인공적인 클리셰를 깎아내고,<br>찰나의 공기와 그루브를 짓는 음악적 설계자"
+      </p>
+      <p class="hero-sub">
+        100~122 BPM의 바운스, 1박의 정적([Beat Stop]), 그리고 언어와 공간을 넘나드는 입체적 대비를 통해<br>
+        기계가 흉내 낼 수 없는 날것의 긴장감과 사운드 미장센을 완성합니다.
+      </p>
+
+      <div class="hero-tags">
+        <span class="hero-tag">#DreamPop_100BPM</span>
+        <span class="hero-tag">#DancePop_122BPM</span>
+        <span class="hero-tag">#Beat_Stop_Engineering</span>
+        <span class="hero-tag">#Cinematic_Visualizer</span>
+        <span class="hero-tag">#Anti_Cliché_Prompting</span>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#discography" class="btn-primary">
+          <span>▶</span> 트랙 리스트 & 디렉팅 노트
+        </a>
+        <a href="#narrative" class="btn-secondary">
+          창작 서사 확인
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Featured Discography -->
+  <section id="discography">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">01 / Featured Works</div>
+        <h2 class="section-title">Sound Architecture & Discography</h2>
+        <p class="section-desc">
+          단순한 자동 생성을 거부하고, 마디(Bar) 규격과 훅 딕션을 집요하게 조율한 시그니처 트랙들입니다.
+        </p>
+      </div>
+
+      <div class="discography-grid">
+        <!-- Track 1: Crosswalk -->
+        <div class="track-card">
+          <div>
+            <div class="track-top">
+              <div class="track-meta">
+                <span class="track-bpm">100 BPM • DREAM POP / SYNTH-POP</span>
+                <h3 class="track-name">Crosswalk</h3>
+                <div class="track-genre">feat. Veyvi • Dual Vocal Architecture</div>
+              </div>
+              <button class="play-btn" onclick="playSynthDemo('crosswalk')" title="Play Crosswalk Demo">
+                ▶
+              </button>
+            </div>
+
+            <p class="track-desc">
+              신호등의 잔여 3초, 젖은 뉴욕 아스팔트 위에서 엇갈리며 스치는 찰나의 정전기 스파크(Static Spark). 
+              클리셰 단어를 걷어내고 구체적 감각으로 조율한 몽환적 신스팝 트랙.
+            </p>
+
+            <div class="track-architecture">
+              <div class="arch-title">Architectural Highlights</div>
+              <ul class="arch-points">
+                <li><strong>입체 보컬 구성:</strong> 1절 영어(남자) ➔ 2절 한국어(여자) ➔ 코러스 합일(영어)</li>
+                <li><strong>악기 편성:</strong> Lush Analog Synth Pads, Warm 808 Bass, Soft Rimshot</li>
+                <li><strong>시각적 연계:</strong> 35mm 필름 그레인 & 왕가위 컬러 팔레트 앨범 커버 동기화</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="track-actions">
+            <button class="btn-detail" onclick="openModal('crosswalk-lyrics')">가사 구조 보기</button>
+            <button class="btn-detail" onclick="openModal('crosswalk-prompt')">Suno 프롬프트</button>
+          </div>
+        </div>
+
+        <!-- Track 2: Last Call Ticket -->
+        <div class="track-card">
+          <div>
+            <div class="track-top">
+              <div class="track-meta">
+                <span class="track-bpm">122 BPM • UPTEMPO DANCE-POP</span>
+                <h3 class="track-name">Last Call Ticket</h3>
+                <div class="track-genre">feat. Veyvi • Beat Stop & Chant Topline</div>
+              </div>
+              <button class="play-btn" onclick="playSynthDemo('lastcall')" title="Play Last Call Demo">
+                ▶
+              </button>
+            </div>
+
+            <p class="track-desc">
+              금요일 밤 가장 빠른 비행기 표를 끊고 탈출하는 날것의 도파민. 
+              인위적인 파티 구호를 걷어내고 실제 말버릇 기반의 랩 챈트와 1박 정적으로 폭발력을 설계한 댄스 팝.
+            </p>
+
+            <div class="track-architecture">
+              <div class="arch-title">Architectural Highlights</div>
+              <ul class="arch-points">
+                <li><strong>1박 정적 ([Beat Stop]):</strong> 코러스 드롭 직전 무음 처리로 킥 충격감 극대화</li>
+                <li><strong>마디 1:1 대칭:</strong> 벌스 4마디(4줄) ➔ 프리코러스 4마디(4줄) ➔ 코러스 4마디</li>
+                <li><strong>현실 오브제:</strong> 스탠바이 탑승권, 덜렁거리는 렌터카 손잡이, 식은 감자튀김</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="track-actions">
+            <button class="btn-detail" onclick="openModal('lastcall-lyrics')">가사 구조 보기</button>
+            <button class="btn-detail" onclick="openModal('lastcall-prompt')">비트 스탑 설계</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Narrative / Philosophy Section -->
+  <section id="narrative" style="background: rgba(16, 18, 26, 0.4);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">02 / Creator Narrative</div>
+        <h2 class="section-title">The Philosophy of VEYVI</h2>
+        <p class="section-desc">
+          AI가 수만 개의 음표를 쏟아낼 때, 아티스트의 역할은 무엇을 '남기고', 무엇을 '지울지' 결정하는 것입니다.
+        </p>
+      </div>
+
+      <div class="philosophy-grid">
+        <div class="phil-card">
+          <div class="phil-num">01</div>
+          <h3 class="phil-title">The Art of Subtraction (덜어냄의 미학)</h3>
+          <p class="phil-desc">
+            "AI 티 나는 요소 다 빼줘요."<br>
+            AI가 무의식적으로 집어넣는 'shooting star', 'neon glow' 같은 기계적 클리셰를 단호히 쳐냅니다. 
+            진짜 인간의 땀 냄새가 묻어나는 구어체와 현실적 오브제만이 음악의 설득력을 만듭니다.
+          </p>
+        </div>
+
+        <div class="phil-card">
+          <div class="phil-num">02</div>
+          <h3 class="phil-title">The Architecture of Bars (엄격한 마디 설계)</h3>
+          <p class="phil-desc">
+            "벌스와 프리코러스 길이가 안 맞는데요."<br>
+            6줄과 2줄의 불균형을 교과서적인 4마디 대칭 구조로 뜯어고칩니다. 
+            비트의 그루브가 물 흐르듯 이어지기 위해서는 음악적 프레임워크에 대한 타협 없는 구조화가 필수적입니다.
+          </p>
+        </div>
+
+        <div class="phil-card">
+          <div class="phil-num">03</div>
+          <h3 class="phil-title">The Tension of Silence (1박 정적의 힘)</h3>
+          <p class="phil-desc">
+            "코러스를 시작할 때 박자 멈추고 시작하게요."<br>
+            소리를 가득 채우는 것보다 중요한 것은 완벽한 순간에 비워내는 1박의 정적([Beat Stop])입니다. 
+            정적이 찰나의 긴장을 모으고, 그 뒤에 떨어지는 드롭이 청자의 심장을 타격합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Activity Domains Section -->
+  <section id="domains">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">03 / Core Competence</div>
+        <h2 class="section-title">Three Creative Domains</h2>
+        <p class="section-desc">
+          사운드 프로듀싱부터 시네마틱 비주얼라이저, 크리에이티브 프롬프트 엔지니어링까지 3대 축을 전개합니다.
+        </p>
+      </div>
+
+      <div class="domains-wrap">
+        <!-- Domain 1 -->
+        <div class="domain-box">
+          <div>
+            <div class="domain-icon">⚡</div>
+            <h3 class="domain-name">Groove Architecture</h3>
+            <p class="domain-text">
+              100~122 BPM 기반의 신스팝, 댄스팝, 펑키 베이스 트랙메이킹. 
+              타악기적 랩 챈트와 직관적인 인트로 훅을 통해 첫 3초 만에 몰입시키는 탑라인을 디자인합니다.
+            </p>
+          </div>
+          <div class="domain-tags">
+            <span class="dtag">Beat Design</span>
+            <span class="dtag">Topline Chant</span>
+            <span class="dtag">Suno/Udio Structuring</span>
+          </div>
+        </div>
+
+        <!-- Domain 2 -->
+        <div class="domain-box">
+          <div>
+            <div class="domain-icon">🎬</div>
+            <h3 class="domain-name">Cinematic Visualizer</h3>
+            <p class="domain-text">
+              소리의 질감을 시각 언어로 치환하는 미장센 아트워크 디렉팅. 
+              35mm 필름 그레인, 네온 바이올렛, 횡단보도의 정전기 스파크 등 곡의 서사를 입체화합니다.
+            </p>
+          </div>
+          <div class="domain-tags">
+            <span class="dtag">Midjourney Art</span>
+            <span class="dtag">Wong Kar-wai Mood</span>
+            <span class="dtag">Album Identity</span>
+          </div>
+        </div>
+
+        <!-- Domain 3 -->
+        <div class="domain-box">
+          <div>
+            <div class="domain-icon">🧪</div>
+            <h3 class="domain-name">Anti-Cliché Prompt Lab</h3>
+            <p class="domain-text">
+              AI의 번역투와 기계적 패턴을 제거(De-AI-fying)하고 인간 고유의 딕션과 오브제를 이식하는 프롬프트 엔지니어링 프레임워크를 연구합니다.
+            </p>
+          </div>
+          <div class="domain-tags">
+            <span class="dtag">De-AI-fying</span>
+            <span class="dtag">Prompt Optimization</span>
+            <span class="dtag">Sound Directing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Gallery Section -->
+  <section id="visuals" style="background: rgba(16, 18, 26, 0.4);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">04 / Visual Direction</div>
+        <h2 class="section-title">Visual Artwork & Moodboards</h2>
+        <p class="section-desc">
+          트랙의 무드를 시각화한 Veyvi의 시그니처 아트워크 콘셉트입니다. 카드를 클릭하면 프롬프트 디테일을 볼 수 있습니다.
+        </p>
+      </div>
+
+      <div class="visual-grid">
+        <!-- Visual 1: Crosswalk -->
+        <div class="visual-card" onclick="openModal('crosswalk-art')">
+          <div class="visual-preview crosswalk-bg">
+            <div class="visual-info">
+              <span class="visual-badge">OFFICIAL COVER ART CONSTRUCT</span>
+              <h4 class="visual-title">Crosswalk (feat. Veyvi)</h4>
+              <p class="visual-prompt-preview">
+                Cinematic wide shot, pedestrian crosswalk at midnight, Wong Kar-wai color palette, static electric sparks...
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual 2: 6:45 PM Clock -->
+        <div class="visual-card" onclick="openModal('clock-art')">
+          <div class="visual-preview clock-bg">
+            <div class="visual-info">
+              <span class="visual-badge">MOOD STUDY</span>
+              <h4 class="visual-title">Six Forty-Five (06:45 PM)</h4>
+              <p class="visual-prompt-preview">
+                Modern minimalist wall clock bathed in golden sunset glare, reflection on glass, clean aesthetic...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-card">
+        <h2 class="contact-title">Let's Build the Next Groove</h2>
+        <p class="contact-desc">
+          AI 작곡 트랙의 구조화, 보컬 탑라인 및 사운드 디렉팅, 시네마틱 앨범 비주얼 협업을 환영합니다.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:dong9nice@gmail.com" class="btn-mail">
+            <span>✉</span> Contact VEYVI (dong9nice@gmail.com)
+          </a>
+          <a href="#discography" class="btn-secondary">
+            View All Tracks
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 VEYVI. All rights reserved. Sound Architecture & Creative Direction.</p>
+      <p style="margin-top: 6px; font-size: 0.8rem; color: #475569;">
+        Built with Human Intuition and Precision AI Engineering
+      </p>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // Audio Context Synthesizer Demo
+    let audioCtx = null;
+    let isPlaying = false;
+    let currentOscillators = [];
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleAudioDemo() {
+      initAudio();
+      if (isPlaying) {
+        stopSound();
+      } else {
+        playSynthDemo('crosswalk');
+      }
+    }
+
+    function playSynthDemo(track) {
+      initAudio();
+      stopSound();
+
+      isPlaying = true;
+      document.getElementById('eq1').classList.add('active');
+      document.getElementById('eq2').classList.add('active');
+      document.getElementById('eq3').classList.add('active');
+      document.getElementById('audioStatusText').innerText = track === 'crosswalk' ? 'Playing: Crosswalk (100 BPM)' : 'Playing: Last Call (122 BPM)';
+
+      const now = audioCtx.currentTime;
+
+      if (track === 'crosswalk') {
+        // Play dreamy synth arpeggio chords
+        const notes = [261.63, 329.63, 392.00, 523.25];
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.15);
+          
+          gain.gain.setValueAtTime(0.001, now + idx * 0.15);
+          gain.gain.exponentialRampToValueAtTime(0.08, now + idx * 0.15 + 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.15 + 2.5);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(now + idx * 0.15);
+          osc.stop(now + idx * 0.15 + 2.5);
+          currentOscillators.push(osc);
+        });
+      } else {
+        // Play punchy 122 BPM synth bounce
+        const freqs = [130.81, 164.81, 196.00];
+        freqs.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now);
+
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(now);
+          osc.stop(now + 0.35);
+          currentOscillators.push(osc);
+        });
+      }
+
+      setTimeout(() => {
+        if (isPlaying) {
+          stopSound();
+        }
+      }, 3500);
+    }
+
+    function stopSound() {
+      isPlaying = false;
+      document.getElementById('eq1').classList.remove('active');
+      document.getElementById('eq2').classList.remove('active');
+      document.getElementById('eq3').classList.remove('active');
+      document.getElementById('audioStatusText').innerText = 'Synth Wave Live';
+      currentOscillators.forEach(osc => {
+        try { osc.stop(); } catch(e){}
+      });
+      currentOscillators = [];
+    }
+
+    // Modal Content Handlers
+    const modalData = {
+      'crosswalk-lyrics': {
+        title: 'Crosswalk (feat. Veyvi) - 가사 아키텍처',
+        content: '<p style="color:#94a3b8; margin-bottom:12px;">남녀의 언어적 분리와 횡단보도의 찰나적 정전을 대비시킨 보컬 구조입니다.</p><div class="code-block">[Intro - Dreamy Synth Arpeggio, Soft 100 BPM Beat]\n\n[Verse 1 - Male Vocal, English]\nWalking down the avenue in the neon glow\nMoving with the rush, nowhere left to go\nSuddenly the city noise started fading away\nCaught your silhouette across the crowded way\n\n[Chorus - Male & Female Duet, English]\nLike a shooting star falling into place\nFinding your eyes in this crowded space\nNo more wandering, no more hesitation\nThis is our moment, our sweet destination\n\n[Verse 2 - Female Vocal, Korean]\n수많은 사람들 그 틈을 지나쳐\n신호가 바뀐 길목에 멈춰 섰을 때\n우연인 듯 자연스레 마주친 눈빛\n마치 오래전부터 정해져 있던 것처럼\n\n[Chorus - Climax, Full Synth Bass, Duet]\nFinding your eyes in this crowded space...</div>'
+      },
+      'crosswalk-prompt': {
+        title: 'Crosswalk - Suno 음악 스타일 프롬프트',
+        content: '<p style="color:#94a3b8; margin-bottom:12px;">Suno의 인식률과 악기 분리도를 극대화한 영문 120자 최적화 프롬프트입니다.</p><div class="code-block">Dream Pop, Synth-pop, 100 BPM, Lush analog synth pads, Warm resonant synth bass, Soft electronic rimshot groove, Shimmering arpeggiator, Dreamy atmospheric reverb, Dual vocals, Male and Female duet, Romantic nostalgic mood, Clean commercial mix</div>'
+      },
+      'lastcall-lyrics': {
+        title: 'Last Call Ticket - 4마디 대칭 가사 구조',
+        content: '<p style="color:#94a3b8; margin-bottom:12px;">122 BPM 4박자 비트에 칼같이 맞춘 벌스 4줄, 프리코러스 4줄, 1박 정적([Beat Stop]) 설계입니다.</p><div class="code-block">[Intro - Signature Drop Synth Melody, Vocal Hook Intro]\nGo, go, we gotta go!\nGate B, don’t take it slow!\n(Run, don\'t look back!)\n[Beat Stop]\n\n[Verse 1 - 4 Bars, Tight Rhythmic Spit, Minimal Funky Bass]\nBackpack on, shoes tied loose\nTerminal sprint, no good excuse\nRed-eye flight, standby seat\nMiddle row, we feel that heat\n\n[Pre-Chorus - 4 Bars, Snare Roll Build-up]\nCut the line, drop the dime\nRun it on empty, we do it in time\nCounting down from three to one\nBoarding door shuts, here we come!\n[Beat Stop]\n\n[Chorus / Hook - 4 Bars, 122 BPM Drop, Maximum Kick]\nGo, go, we gotta go!\nGate B, don’t take it slow!\nJust run, don’t look back!</div>'
+      },
+      'lastcall-prompt': {
+        title: 'Last Call Ticket - 비트 스탑 & 사운드 설계',
+        content: '<p style="color:#94a3b8; margin-bottom:12px;">드롭 직전 1박 정적과 킬링 인트로 훅을 생성하기 위한 핵심 디렉팅 포인트입니다.</p><div class="code-block">Uptempo Dance-Pop, Electropop, 122 BPM, Bright bouncy piano chords, Punchy 4-on-the-floor kick, Funky synth bassline, Crisp snare roll build-up, Catchy melodic rap-chant vocals, High-energy euphoria, Clean club mix</div>'
+      },
+      'crosswalk-art': {
+        title: 'Crosswalk 아트워크 디렉팅 프롬프트',
+        content: '<p style="color:#94a3b8; margin-bottom:12px;">왕가위 영화의 컬러감과 35mm 필름 룩, 정전기 스파크를 시각화한 Midjourney/DALL-E 프롬프트입니다.</p><div class="code-block">Album cover art, dream pop synthwave aesthetic. A cinematic wide shot of a man and a woman crossing paths on a pedestrian crosswalk at a city intersection in New York at midnight. Woman is Korean, man is Caucasian. The surrounding crowd is motion-blurred, while the two stop mid-stride, turning slightly toward each other. A glowing pedestrian timer in the distance displaying number 3. Neon teal, cyan, and deep violet reflections on wet asphalt. Subtle glowing static electrical sparks subtly shimmering between their brushing coat sleeves. 35mm film grain, moody cinematic lighting, Wong Kar-wai color palette, 8k resolution, minimalist modern album design, Title "Crosswalk", artist "Veyvi" --ar 1:1</div>'
+      },
+      'clock-art': {
+        title: 'Six Forty-Five (06:45 PM) 시계 아트워크',
+        content: '<p style="color:#94a3b8; margin-bottom:12px;">6시 45분을 가리키는 모던 벽시계와 유리에 반사되는 일몰 햇빛의 미니멀리즘 비주얼입니다.</p><div class="code-block">Album cover art, modern minimalist wall clock hanging on a concrete wall, hands pointing precisely to 6:45 PM. Golden hour sunlight streaming through a window, casting warm reflective glare and long cinematic shadows across the glass face and clock hands. Clean, contemporary aesthetic, high-end photography, 8k resolution, no extraneous text, peaceful ambient mood --ar 1:1</div>'
+      }
+    };
+
+    function openModal(key) {
+      const data = modalData[key];
+      if (!data) return;
+      document.getElementById('modalBody').innerHTML = '<h3 style="font-size: 1.5rem; color:#fff; margin-bottom:12px; font-weight:700;">' + data.title + '</h3>' + data.content;
+      document.getElementById('modalBackdrop').classList.add('active');
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'modalBackdrop') {
+        document.getElementById('modalBackdrop').classList.remove('active');
+      }
+    }
+
+    function closeModalDirect() {
+      document.getElementById('modalBackdrop').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
